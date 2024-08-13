@@ -11,6 +11,7 @@ import {
 
 import { HiOutlineMenuAlt1, HiUserCircle } from "react-icons/hi";
 import NavLink from "./NavLink";
+import { Link } from "@inertiajs/react";
 
 export default function TopBar({
     drawerWidth,
@@ -23,11 +24,10 @@ export default function TopBar({
     return (
         <AppBar
             position="fixed"
-            className="shadow-none border-b-2 border-blue-300"
+            className="shadow-none bg-transparent"
             sx={{
                 width: { md: `calc(100% - ${drawerWidth}px)` },
                 ml: { md: `${drawerWidth}px` },
-                backgroundColor: "rgba(243, 244, 246, 0.6)",
                 backdropFilter: "blur(2px)",
             }}
         >
@@ -42,23 +42,31 @@ export default function TopBar({
                     <HiOutlineMenuAlt1 />
                 </IconButton>
                 <Typography
-                    className="hidden md:block"
                     variant="h6"
-                    color={"primary"}
+                    className="text-front"
                     component="div"
-                    sx={{ flexGrow: 1 }}
+                    sx={{ flexGrow: 1, fontSize: 18 }}
                 >
                     {role}
                 </Typography>
-                <Button variant="outlined">Request Referral</Button>
+                {}
+                {role === "Specialist" && (
+                    <Link
+                        href={"/referrals/new"}
+                        className="my-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    >
+                        New Referral
+                    </Link>
+                )}
                 <Divider
-                    className="m-4"
+                    className="m-4 border-bd"
                     orientation="vertical"
                     variant="middle"
                     flexItem
                 />
                 <div>
                     <IconButton
+                        className="text-front"
                         size="large"
                         aria-label="account of current user"
                         aria-controls="menu-appbar"

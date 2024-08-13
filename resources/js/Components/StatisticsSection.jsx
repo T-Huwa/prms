@@ -8,7 +8,7 @@ const StatisticsSection = () => (
             <StatisticCard
                 title="Total active users"
                 value="18,765"
-                className="bg-blue-100"
+                className="bg-gray-600"
                 change="+2.6% last 7 days"
             />
         </Grid>
@@ -27,22 +27,20 @@ const StatisticsSection = () => (
             />
         </Grid>
         <Grid item xs={12} md={3}>
-            <StatisticCard title="Current download" value="4,876" change="" />
+            <StatisticCard title="Deaths" value="0" change="0.0 last 7 days" />
         </Grid>
-        <Grid item xs={2} md={12}>
+        <Grid className="bg-gray-100 mt-5 rounded-xl" item xs={2} md={12}>
             <LineChart
-                xAxis={[
-                    {
-                        scaleType: "band",
-                        data: ["January", "February", "March"],
-                    },
-                ]}
+                xAxis={[{ data: [1, 2, 3, 5, 8, 10, 12] }]}
                 series={[
-                    { data: [4, 3, 5] },
-                    { data: [1, 6, 3] },
-                    { data: [2, 5, 6] },
+                    { data: [0, 5, 2, 6, 3, 9.3] },
+                    { data: [6, 3, 7, 9.5, 4, 2] },
+                    { data: [12, 9, 7, 2.1, 10, 1] },
+                    { data: [4, 3, 6, 4.5, 9.2, 12] },
                 ]}
                 height={300}
+                margin={{ left: 30, right: 30, top: 30, bottom: 30 }}
+                grid={{ horizontal: true }}
             />
         </Grid>
     </Grid>

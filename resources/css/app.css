@@ -3,6 +3,24 @@
 
 @tailwind components;
 @tailwind utilities;
+@tailwind base;
+
+:root {
+    --border: 30, 144, 255;
+    --text: 17, 24, 39;
+    --background: 255, 255, 255;
+    --red: 255, 0, 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ffffff;
+        --background: 17, 24, 39;
+    }
+    * {
+        color: #ffffff;
+    }
+}
 
 body {
     font-family: "Poppins", sans-serif;
@@ -12,10 +30,6 @@ body {
     margin: 0;
 }
 
-a {
-    color: #1a202c;
-}
-
 .menu-item {
     transition: transform 0.2s ease, background-color 0.2s ease;
 }
@@ -23,10 +37,30 @@ a {
 .menu-item:hover {
     transform: translateY(-0.3rem) translateX(0.3rem);
     color: rgb(14 165 233);
-    background-color: #e5e7eb;
     filter: drop-shadow(0 0 0.5em #646cffaa);
 }
 
 .rotate-180 {
     rotate: 1620deg;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgb(var(--background));
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #fff;
 }

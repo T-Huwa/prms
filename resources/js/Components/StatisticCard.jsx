@@ -1,7 +1,7 @@
 import { Card, CardContent, Typography } from "@mui/material";
 
 const StatisticCard = ({ title, value, change }) => (
-    <Card className="h-full shadow-lg">
+    <Card className="h-full shadow-lg border-2 bg-inherit">
         <CardContent>
             <Typography variant="h6" component="h2" className="mb-2">
                 {title}
@@ -9,7 +9,7 @@ const StatisticCard = ({ title, value, change }) => (
             <Typography variant="h4" component="p" className="mb-1">
                 {value}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2" className="text-gray-300">
                 {change}
             </Typography>
         </CardContent>

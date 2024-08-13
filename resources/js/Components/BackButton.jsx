@@ -1,16 +1,17 @@
 import { Link } from "@inertiajs/react";
 import { ArrowBack } from "@mui/icons-material";
+import { Box } from "@mui/material";
 
 const BackButton = () => {
     return (
         <>
-            <Link
-                className="fixed shadow-lg bg-blue-200 hover:bg-blue-400 hover:shadow-xl p-2 rounded-full"
+            <Box
+                className="block fixed shadow-lg bg-background border-2 border-bd hover:bg-bd hover:border-bd p-2 rounded-full"
                 aria-label="back"
-                href={route("back")}
+                onClick={() => window.history.back()}
             >
                 <ArrowBack />
-            </Link>
+            </Box>
         </>
     );
 };

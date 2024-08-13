@@ -39,7 +39,7 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'string'],
-            'specialty' => ['required', 'string'],
+            'specialty' => 'nullable|string',
             'hospital_id' => 'nullable|string',
             'profile_photo' => 'nullable|string',
         ]); 
@@ -57,7 +57,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         //return response()->json(['success' => 'User added successfully'], 200);
-        return Inertia::render('Auth/Register', [
+        return Inertia::render('Admin/Register', [
             'success' => 'User added successfully'
         ]);
     }

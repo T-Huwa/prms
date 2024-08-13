@@ -49,13 +49,15 @@ const Referral = () => {
                 <Divider className="text-2xl mb-5">Incoming Referral</Divider>
                 <TableContainer
                     component={Paper}
-                    className="rounded-xl shadow-lg"
+                    className="rounded-xl shadow-lg border-2 border-bd bg-background text-front"
                 >
                     <Table aria-label="referral details table">
                         <TableHead>
                             <TableRow>
-                                <TableCell className="text-lg">Field</TableCell>
-                                <TableCell className="text-lg">
+                                <TableCell className="text-lg text-front">
+                                    Field
+                                </TableCell>
+                                <TableCell className="text-lg text-front">
                                     Details
                                 </TableCell>
                             </TableRow>
@@ -63,10 +65,14 @@ const Referral = () => {
                         <TableBody>
                             {Object.keys(referral).map((key) => (
                                 <TableRow key={key}>
-                                    <TableCell component="th" scope="row">
+                                    <TableCell
+                                        component="td"
+                                        scope="row"
+                                        className="text-front"
+                                    >
                                         {key}
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className="text-front">
                                         {Array.isArray(referral[key])
                                             ? referral[key].join(", ")
                                             : referral[key]}
