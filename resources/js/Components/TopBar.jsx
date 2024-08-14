@@ -12,6 +12,7 @@ import {
 import { HiOutlineMenuAlt1, HiUserCircle } from "react-icons/hi";
 import NavLink from "./NavLink";
 import { Link } from "@inertiajs/react";
+import DarkMode from "./DarkMode/DarkMode";
 
 export default function TopBar({
     drawerWidth,
@@ -58,6 +59,7 @@ export default function TopBar({
                         New Referral
                     </Link>
                 )}
+                <DarkMode />
                 <Divider
                     className="m-4 border-bd"
                     orientation="vertical"

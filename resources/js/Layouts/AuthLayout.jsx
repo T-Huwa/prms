@@ -1,5 +1,12 @@
 import TopBar from "@/Components/TopBar";
-import { AppBar, Box, CssBaseline, Drawer, Typography } from "@mui/material";
+import {
+    AppBar,
+    Box,
+    CssBaseline,
+    Drawer,
+    Paper,
+    Typography,
+} from "@mui/material";
 import { useState } from "react";
 import SideNav from "@/Components/SideNav";
 import { usePage } from "@inertiajs/react";
@@ -38,10 +45,7 @@ export default function AuthLayout({ children }) {
 
     return (
         <>
-            <Box
-                className="bg-background dark:bg-gray-900"
-                sx={{ display: "flex" }}
-            >
+            <Box className="bg-background" sx={{ display: "flex" }}>
                 <CssBaseline />
                 <TopBar
                     drawerWidth={drawerWidth}
@@ -72,34 +76,35 @@ export default function AuthLayout({ children }) {
                             "& .MuiDrawer-paper": {
                                 boxSizing: "border-box",
                                 width: drawerWidth,
-                                borderRight: "var(--border)",
                             },
                         }}
                     >
                         <SideNav role={user.role} width={drawerWidth} />
                     </Drawer>
-                    <Drawer
+                    <Paper
                         variant="permanent"
+                        className="fixed h-screen"
                         sx={{
+                            boxSizing: "border-box",
+                            borderRight: "2px dashed rgb(var(--border))",
+                            backgroundColor: "rgb(var(--background))",
+                            width: drawerWidth,
                             display: { xs: "none", md: "block" },
-                            "& .MuiDrawer-paper": {
-                                boxSizing: "border-box",
-                                width: drawerWidth,
-                                borderRight: "1px dashed rgb(var(--border))",
-                            },
+                            "& .MuiDrawer-paper": {},
                         }}
                         open
                     >
                         <SideNav role={user.role} width={drawerWidth} />
-                    </Drawer>
+                    </Paper>
                 </Box>
                 <Box
                     component="main"
-                    className="flex-1 px-6 py-16 mt-4 min-h-screen"
+                    className="flex-1 px-6 py-16 mt-8 min-h-screen"
                     sx={{
                         flexGrow: 1,
                         p: 3,
                         width: { sm: `calc(100% - ${258}px)` },
+                        boxSizing: "border-box",
                     }}
                 >
                     {children}

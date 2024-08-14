@@ -3,13 +3,7 @@ import { Box, Paper, Typography, colors } from "@mui/material";
 import welcome from "../../assets/welcome.svg";
 
 const WelcomeSection = ({ role }) => (
-    <Paper
-        className="flex p-6 bg-red rounded-lg text-white mb-8"
-        sx={{
-            bgcolor: "#0AAFFA",
-        }}
-        elevation={6}
-    >
+    <Paper className="flex p-6 bg-bd rounded-lg text-white mb-8" elevation={6}>
         <Box className="flex-1">
             <Typography variant="h4" component="h1" gutterBottom>
                 Welcome back 👋
@@ -17,6 +11,7 @@ const WelcomeSection = ({ role }) => (
             <Typography variant="h6" component="p" className="my-10">
                 Streamline the process of referring patients to other hospitals.
             </Typography>
+
             {role === "Specialist" && (
                 <Link
                     href={"/referrals/new"}

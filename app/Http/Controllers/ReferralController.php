@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Referral;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Inertia\Inertia;
 
 class ReferralController extends Controller
@@ -27,7 +28,7 @@ class ReferralController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Specialist/NewReferral');
     }
 
     /**

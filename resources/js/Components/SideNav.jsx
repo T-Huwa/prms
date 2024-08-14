@@ -1,6 +1,4 @@
-import logo from "../../assets/logoipsum.svg";
-import { FaUsers, FaUserDoctor, FaUserNurse } from "react-icons/fa6";
-import { RiAdminFill } from "react-icons/ri";
+import { FaUsers } from "react-icons/fa6";
 import { FaFileArrowDown, FaFileArrowUp, FaFileLines } from "react-icons/fa6";
 import { AiFillDashboard } from "react-icons/ai";
 import {
@@ -13,6 +11,7 @@ import {
 } from "@mui/material";
 import NavLink from "./NavLink";
 import { usePage } from "@inertiajs/react";
+import Logo from "@/Assets/Logo";
 
 const SideNav = ({ role, width }) => {
     var prefix = "";
@@ -21,16 +20,16 @@ const SideNav = ({ role, width }) => {
     }
     const component = usePage().component;
     return (
-        <Box className="overflow-hidden hover:overflow-y-auto bg-background shadow-md relative w-full p-2 px-2 flex-1">
+        <Box className="overflow-hidden hover:overflow-y-auto bg-background relative w-full p-2 px-2 flex-1">
             <Box>
                 <Box className="h-36 flex justify-center items-center border-dashed border-bd border-b-2">
-                    <img src={logo} alt="Logo" className="m-4" />
+                    <Logo />
                 </Box>
                 <List className="mt-2">
                     <ListItem className="bg-background dark:text-white menu-item flex items-center my-1 px-4 rounded-lg">
                         <NavLink
                             href={route("admin.dashboard")}
-                            active={component === prefix + "/Dashboard"}
+                            active={usePage().url.includes("dashboard")}
                             className="w-full"
                         >
                             <ListItemIcon>
@@ -50,7 +49,7 @@ const SideNav = ({ role, width }) => {
                     <ListItem className="bg-background dark:text-white menu-item flex items-center my-1 py-2.5 px-4 rounded-lg">
                         <NavLink
                             href={route("incoming")}
-                            active={component === "Incoming"}
+                            active={usePage().url.includes("referrals")}
                             className="w-full"
                         >
                             <ListItemIcon>

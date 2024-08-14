@@ -8,7 +8,6 @@ const StatisticsSection = () => (
             <StatisticCard
                 title="Total active users"
                 value="18,765"
-                className="bg-gray-600"
                 change="+2.6% last 7 days"
             />
         </Grid>
@@ -29,7 +28,12 @@ const StatisticsSection = () => (
         <Grid item xs={12} md={3}>
             <StatisticCard title="Deaths" value="0" change="0.0 last 7 days" />
         </Grid>
-        <Grid className="bg-gray-100 mt-5 rounded-xl" item xs={2} md={12}>
+        <Grid
+            className="bg-gray-100 mt-5 rounded-lg shadow-xl border-2 border-gray-300"
+            item
+            xs={2}
+            md={12}
+        >
             <LineChart
                 xAxis={[{ data: [1, 2, 3, 5, 8, 10, 12] }]}
                 series={[

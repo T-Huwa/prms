@@ -56,7 +56,7 @@ export default function Incoming({ auth }) {
                             {referrals.map((referral) => (
                                 <TableRow
                                     key={referral.id}
-                                    className="hover:bg-gray-300 dark:hover:bg-gray-600"
+                                    className="hover:bg-front/20"
                                     style={{ cursor: "pointer" }}
                                     onClick={() =>
                                         router.get(`/referrals/${referral.id}`)

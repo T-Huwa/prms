@@ -39,6 +39,6 @@ createInertiaApp({
     },
     progress: {
         delay: 250,
-        color: "var(--text)",
+        color: "rgb(var(--border))",
     },
 });

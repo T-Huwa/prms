@@ -18,14 +18,12 @@ class UserController extends Controller
     }
 
     public function destroy(Request $request, $id){
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         if ($request->user()->role == "Admin") {
             $user->delete();
             
-            return Inertia::render('Admin/Users', [
-                'success' => 'User deleted successfully'
-            ]);
+            return redirect(route('users'));
         }
         return Inertia::render('Admin/Users', [
             'error' => 'Failed to delete user'

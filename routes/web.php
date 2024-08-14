@@ -33,6 +33,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users');
 });
 
+// Admin Route Group
+Route::middleware(['auth'])->group(function () {
+    Route::get('specialist/dashboard', function () {
+        return Inertia::render('Specialist/Dashboard');
+    })->name('specialist.dashboard');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -41,7 +48,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/referrals/{id}', [ReferralController::class, 'show']);
-Route::get('/users/{id}', [UserController::class, 'destroy']);
+Route::get('/referrals/new', [ReferralController::class, 'create'])->name('referral.create');
+Route::get('/referrals/{id}', [ReferralController::class, 'show'])->name('referral.view');
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
 Route::get('/referrals', [ReferralController::class, 'index'])->name('incoming');

@@ -26,7 +26,6 @@ export default forwardRef(function TextInput(
         <TextField
             {...props}
             type={type}
-            name="age"
             label={label}
             fullWidth
             variant="outlined"

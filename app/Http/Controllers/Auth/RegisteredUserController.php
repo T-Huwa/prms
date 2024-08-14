@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
             'specialty' => 'nullable|string',
             'hospital_id' => 'nullable|string',
             'profile_photo' => 'nullable|string',
-        ]); 
+        ]);
 
         $user = User::create([
             'name' => $request->name,

@@ -7,19 +7,25 @@
 
 :root {
     --border: 30, 144, 255;
+    --red: 255, 0, 0;
     --text: 17, 24, 39;
     --background: 255, 255, 255;
-    --red: 255, 0, 0;
 }
 
+[data-theme="dark"] {
+    --text: 255, 255, 255;
+    --background: 17, 24, 39;
+}
+/*
 @media (prefers-color-scheme: dark) {
     :root {
         --text: #ffffff;
         --background: 17, 24, 39;
     }
-    * {
-        color: #ffffff;
-    }
+} */
+
+* {
+    color: rgb(var(--text));
 }
 
 body {
@@ -63,4 +69,9 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #fff;
+}
+
+.welcome {
+    width: 600px;
+    height: 450px;
 }

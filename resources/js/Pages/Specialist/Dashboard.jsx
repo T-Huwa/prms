@@ -7,11 +7,11 @@ import { Container, Typography } from "@mui/material";
 export default function Dashboard({ auth }) {
     return (
         <AuthLayout user={auth.user}>
-            <Head title="Admin Dashboard" />
+            <Head title="Dashboard" />
 
-            <div className="bg-background min-h-screen">
+            <div className="min-h-screen">
                 <Typography variant="h5" className="text-xl text-front">
-                    Admin Dashboard
+                    Specialist Dashboard
                 </Typography>
                 <Container maxWidth="lg">
                     <div className="py-8">
