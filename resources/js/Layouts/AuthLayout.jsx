@@ -99,10 +99,9 @@ export default function AuthLayout({ children }) {
                 </Box>
                 <Box
                     component="main"
-                    className="flex-1 px-6 py-16 mt-8 min-h-screen"
+                    className="flex-1 px-6 md:px-1 py-16 mt-8 min-h-screen"
                     sx={{
                         flexGrow: 1,
-                        p: 3,
                         width: { sm: `calc(100% - ${258}px)` },
                         boxSizing: "border-box",
                     }}

@@ -21,8 +21,6 @@ const Referral = () => {
     const { props } = usePage();
     const { referral } = props;
 
-    console.log(referral);
-
     if (!referral) {
         return (
             <AuthLayout>
@@ -45,7 +43,7 @@ const Referral = () => {
             {/* <Head title=`Referral{{referral.id}}` /> */}
             <Head title={"Referral-" + referral.ReferralID} />
             <Box>
-                <BackButton />
+                <BackButton previous="incoming" />
                 <Divider className="text-2xl mb-5">Incoming Referral</Divider>
                 <TableContainer
                     component={Paper}

@@ -33,6 +33,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        $firstWord = explode(' ', $request['name'])[0];
         
         $request->validate([
             'name' => 'required|string|max:255',
@@ -51,7 +52,7 @@ class RegisteredUserController extends Controller
             'role'=> $request->role,
             'specialty'=> $request->specialty,
             'hospital_id'=> $request->hospital_id,
-            'profile_photo' => $request->profile_photo,
+            'profile_photo' => $firstWord . ".jpg",
         ]);
 
         event(new Registered($user));

@@ -63,36 +63,36 @@ export default function Incoming({ auth }) {
                                     }
                                 >
                                     <TableCell className="text-front">
-                                        {referral.Name}
+                                        {referral.name}
                                     </TableCell>
                                     <TableCell className="text-front">
-                                        {referral.Hospital}
+                                        {referral.hospital}
                                     </TableCell>
                                     <TableCell className="text-front">
-                                        {referral.Status}
+                                        {referral.status}
                                     </TableCell>
                                     <TableCell className="text-front">
-                                        {referral.WorkingDiagnosis}
+                                        {referral.working_diagnosis}
                                     </TableCell>
                                     <TableCell className="text-front">
                                         <div className="flex flex-col">
                                             <span>
                                                 {" "}
                                                 {new Date(
-                                                    referral.ReportedOn
+                                                    referral.reported_on
                                                 ).toLocaleDateString()}
-                                                {referral.Urgency === "Low" && (
+                                                {referral.urgency === "Low" && (
                                                     <span className="m-2 px-2 py-1 bg-green-500 rounded-full">
                                                         Low
                                                     </span>
                                                 )}
-                                                {referral.Urgency ===
+                                                {referral.urgency ===
                                                     "Medium" && (
                                                     <span className="m-2 px-2 py-1 bg-yellow-500 text-white rounded-full">
                                                         Medium
                                                     </span>
                                                 )}
-                                                {referral.Urgency ===
+                                                {referral.urgency ===
                                                     "High" && (
                                                     <span className="m-2 px-2 py-1 bg-red-500 text-white rounded-full">
                                                         High

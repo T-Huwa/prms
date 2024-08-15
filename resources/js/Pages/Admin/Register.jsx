@@ -63,12 +63,12 @@ export default function Register({ success }) {
         <AuthLayout>
             <Head title="Register" />
 
-            <BackButton />
+            <BackButton previous="users" />
 
             <Box className="flex w-full justify-center">
                 <Paper
                     elevation={6}
-                    className="flex-1 align-center text-front border-bd border-2 bg-background m-6 rounded-lg p-6 max-w-md"
+                    className="flex-1 align-center text-front border-bd border-2 bg-background m-6 md:m-2 rounded-lg p-6 max-w-md"
                 >
                     <Box className="max-w-sm">
                         <Typography

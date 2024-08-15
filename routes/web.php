@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\UserController;
@@ -53,3 +54,6 @@ Route::get('/referrals/{id}', [ReferralController::class, 'show'])->name('referr
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
 Route::get('/referrals', [ReferralController::class, 'index'])->name('incoming');
+
+Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.create');
+Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback');

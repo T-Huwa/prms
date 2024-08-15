@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\hospital;
-use App\Http\Requests\StorehospitalRequest;
-use App\Http\Requests\UpdatehospitalRequest;
+use App\Models\Hospital;
+use App\Http\Requests\StoreHospitalRequest;
+use App\Http\Requests\UpdateHospitalRequest;
 
 class HospitalController extends Controller
 {
@@ -27,7 +27,7 @@ class HospitalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorehospitalRequest $request)
+    public function store(StoreHospitalRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class HospitalController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(hospital $hospital)
+    public function show(Hospital $hospital)
     {
         //
     }
@@ -43,7 +43,7 @@ class HospitalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(hospital $hospital)
+    public function edit(Hospital $hospital)
     {
         //
     }
@@ -51,7 +51,7 @@ class HospitalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatehospitalRequest $request, hospital $hospital)
+    public function update(UpdateHospitalRequest $request, Hospital $hospital)
     {
         //
     }
@@ -59,7 +59,7 @@ class HospitalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(hospital $hospital)
+    public function destroy(Hospital $hospital)
     {
         //
     }
