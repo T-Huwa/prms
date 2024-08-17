@@ -5,6 +5,35 @@
 @tailwind utilities;
 @tailwind base;
 
+@font-face {
+    font-family: "Poppins-Regular";
+    src: local("Poppins-Regular"),
+        url("../assets/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Aptos";
+    src: local("Aptos"), url("../assets/fonts/Aptos.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Aptos-Bold";
+    src: local("Aptos-Bold"),
+        url("../assets/fonts/Aptos-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Poppins-Bold";
+    src: local("Poppins-Bold"),
+        url("../assets/fonts/Poppins-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Poppins-Medium";
+    src: local("Poppins-Medium"),
+        url("../assets/fonts/Poppins-Medium.ttf") format("truetype");
+}
+
 :root {
     --border: 30, 144, 255;
     --red: 255, 0, 0;
@@ -16,13 +45,6 @@
     --text: 255, 255, 255;
     --background: 17, 24, 39;
 }
-/*
-@media (prefers-color-scheme: dark) {
-    :root {
-        --text: #ffffff;
-        --background: 17, 24, 39;
-    }
-} */
 
 * {
     color: rgb(var(--text));
@@ -43,7 +65,11 @@ body {
 .menu-item:hover {
     transform: translateY(-0.3rem) translateX(0.3rem);
     color: rgb(14 165 233);
-    filter: drop-shadow(0 0 0.5em #646cffaa);
+    filter: drop-shadow(0 0 0.2em #646cffaa);
+}
+
+.active {
+    filter: drop-shadow(0 0 0.2em #646cffaa);
 }
 
 .rotate-180 {

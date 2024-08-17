@@ -13,7 +13,6 @@ import {
     Button,
     Box,
     IconButton,
-    InputBase,
     Table,
     TableBody,
     TableContainer,
@@ -133,22 +132,29 @@ export default function Users({ auth, users, success }) {
                                 minWidth: 700,
                             }}
                         >
-                            <Table aria-label="customized table">
+                            <Table
+                                aria-label="customized table"
+                                className="border-collapse"
+                            >
                                 <TableHead>
                                     <TableRow>
                                         <StyledTableCell></StyledTableCell>
-                                        <StyledTableCell className="pl-0">
+                                        <StyledTableCell className="pl-0 text-lg font-aptos-bold">
                                             Name
                                         </StyledTableCell>
-                                        <StyledTableCell>Email</StyledTableCell>
-                                        <StyledTableCell>Role</StyledTableCell>
-                                        <StyledTableCell>
+                                        <StyledTableCell className="text-lg font-aptos-bold">
+                                            Email
+                                        </StyledTableCell>
+                                        <StyledTableCell className="text-lg font-aptos-bold">
+                                            Role
+                                        </StyledTableCell>
+                                        <StyledTableCell className="text-lg font-aptos-bold">
                                             Hospital
                                         </StyledTableCell>
-                                        <StyledTableCell>
+                                        <StyledTableCell className="text-lg font-aptos-bold">
                                             Specialty
                                         </StyledTableCell>
-                                        <StyledTableCell>
+                                        <StyledTableCell className="text-lg font-aptos-bold">
                                             Action
                                         </StyledTableCell>
                                     </TableRow>
@@ -176,7 +182,9 @@ export default function Users({ auth, users, success }) {
                                                 {user.role}
                                             </StyledTableCell>
                                             <StyledTableCell>
-                                                {user.hospital}
+                                                {user.role !== "Admin"
+                                                    ? user.hospital
+                                                    : "-"}
                                             </StyledTableCell>
                                             <StyledTableCell>
                                                 {user.role === "Specialist"

@@ -13,6 +13,11 @@ export default {
     theme: {
         extend: {
             fontFamily: {
+                "poppins-regular": "Poppins-Regular",
+                "poppins-medium": "Poppins-Medium",
+                "poppins-bold": "Poppins-Bold",
+                aptos: "Aptos",
+                "aptos-bold": "Aptos-Bold",
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
             colors: {
@@ -20,7 +25,6 @@ export default {
                 background: "rgba(var(--background))",
                 front: "rgba(var(--text))",
                 bd: "rgba(var(--border))",
-                red: "rgba(var(--red))",
             },
         },
     },

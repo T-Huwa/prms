@@ -12,23 +12,35 @@ import {
 import NavLink from "./NavLink";
 import { usePage } from "@inertiajs/react";
 import Logo from "@/Assets/Logo";
+import { useEffect, useState } from "react";
 
-const SideNav = ({ role, width }) => {
-    var prefix = "";
-    if (role === "Admin") {
-        prefix = "Admin";
-    }
+const SideNav = () => {
+    const { auth } = usePage().props;
+    const role = auth.user.role;
+
+    const [prefix, setPrefix] = useState("");
+    useEffect(() => {
+        if (role === "Admin") {
+            setPrefix("admin.");
+        } else if (role === "Specialist") {
+            setPrefix("specialist.");
+        }
+    }, []);
+
     const component = usePage().component;
     return (
         <Box className="overflow-hidden hover:overflow-y-auto bg-background relative w-full p-2 px-2 flex-1">
             <Box>
-                <Box className="h-36 flex justify-center items-center border-dashed border-bd border-b-2">
-                    <Logo />
+                <Box className="items-center grid grid-cols-1 h-36 flex justify-center items-center border-dashed border-bd border-b-2">
+                    <div className="flex justify-center">
+                        <Logo />
+                    </div>
+                    <div className="flex justify-center">{auth.user.name}</div>
                 </Box>
                 <List className="mt-2">
-                    <ListItem className="bg-background dark:text-white menu-item flex items-center my-1 px-4 rounded-lg">
+                    <ListItem>
                         <NavLink
-                            href={route("admin.dashboard")}
+                            href={route(prefix + "dashboard")}
                             active={usePage().url.includes("dashboard")}
                             className="w-full"
                         >
@@ -46,7 +58,7 @@ const SideNav = ({ role, width }) => {
                         Referrals
                     </Typography>
 
-                    <ListItem className="bg-background dark:text-white menu-item flex items-center my-1 py-2.5 px-4 rounded-lg">
+                    <ListItem>
                         <NavLink
                             href={route("incoming")}
                             active={usePage().url.includes("referrals")}
@@ -55,43 +67,30 @@ const SideNav = ({ role, width }) => {
                             <ListItemIcon>
                                 <FaFileArrowDown className="mr-3 w-5 h-5" />
                             </ListItemIcon>
-                            <ListItemText primary="Incoming" />
-                        </NavLink>
-                    </ListItem>
-
-                    <ListItem className="bg-background dark:text-white menu-item flex items-center my-1 py-2.5 px-4 rounded-lg">
-                        <NavLink
-                            href="/referrals/outgoing"
-                            active={component === "Outgoing"}
-                            className="w-full"
-                        >
-                            <ListItemIcon>
-                                <FaFileArrowUp className="h-5" />
-                            </ListItemIcon>
-                            <ListItemText primary="Outgoing" />
-                        </NavLink>
-                    </ListItem>
-
-                    <ListItem className="bg-background dark:text-white menu-item flex items-center my-1 py-2.5 px-4 rounded-lg">
-                        <NavLink
-                            href="/referrals/requests"
-                            active={component === "Requests"}
-                            className="w-full"
-                        >
-                            <ListItemIcon>
-                                <FaFileLines className="h-5" />
-                            </ListItemIcon>
-                            <ListItemText primary="Requests" />
+                            <ListItemText primary="Referrals" />
                         </NavLink>
                     </ListItem>
 
                     {role === "Admin" && (
                         <>
                             <Typography variant="h-4" className="my-4">
-                                Users
+                                Administrator
                             </Typography>
 
-                            <ListItem className="bg-background dark:text-white menu-item flex items-center my-1 py-2.5 px-4 rounded-lg">
+                            <ListItem>
+                                <NavLink
+                                    href={route("users")}
+                                    active={usePage().url.includes("user")}
+                                    className="w-full"
+                                >
+                                    <ListItemIcon>
+                                        <FaUsers className="h-5" />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Users" />
+                                </NavLink>
+                            </ListItem>
+
+                            <ListItem>
                                 <NavLink
                                     href="/admin/users"
                                     active={component === "UsersAll"}
@@ -100,7 +99,7 @@ const SideNav = ({ role, width }) => {
                                     <ListItemIcon>
                                         <FaUsers className="h-5" />
                                     </ListItemIcon>
-                                    <ListItemText primary="Users" />
+                                    <ListItemText primary="Hospitals" />
                                 </NavLink>
                             </ListItem>
                         </>

@@ -9,8 +9,11 @@ export default function Dashboard({ auth }) {
         <AuthLayout user={auth.user}>
             <Head title="Admin Dashboard" />
 
-            <div className="bg-background min-h-screen">
-                <Typography variant="h5" className="text-xl text-front">
+            <div className="bg-background min-h-screen lg:px-8">
+                <Typography
+                    variant="h5"
+                    className="text-3xl text-front font-aptos-bold"
+                >
                     Admin Dashboard
                 </Typography>
                 <Container maxWidth="lg">

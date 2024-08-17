@@ -16,6 +16,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $appends = ['hospital'];
     protected $fillable = [
         'name',
         'email',
@@ -48,4 +49,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getHospitalAttribute()
+    {
+        return $this->hospitalRelation ? $this->hospitalRelation->name : null;
+    }
+
+    public function hospitalRelation()
+    {
+        return $this->belongsTo(Hospital::class, 'hospital_id');
+    }
+
 }

@@ -9,11 +9,15 @@ export default function Dashboard({ auth }) {
         <AuthLayout user={auth.user}>
             <Head title="Dashboard" />
 
-            <div className="min-h-screen">
-                <Typography variant="h5" className="text-xl text-front">
-                    Specialist Dashboard
-                </Typography>
+            <div className="min-h-screen lg:px-6">
                 <Container maxWidth="lg">
+                    {" "}
+                    <Typography
+                        variant="h5"
+                        className="text-3xl text-front font-aptos-bold"
+                    >
+                        Specialist Dashboard
+                    </Typography>
                     <div className="py-8">
                         <WelcomeSection role={auth.user.role} />
                         <StatisticsSection />

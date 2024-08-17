@@ -17,7 +17,7 @@ import { useState } from "react";
 import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
 
-export default function Register({ success }) {
+export default function Register({ success, hospitals }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState("Success");
     const [modalContent, setModalContent] = useState(
@@ -31,7 +31,7 @@ export default function Register({ success }) {
         password_confirmation: "",
         role: "",
         specialty: "",
-        hospital_id: "",
+        hospital_id: null,
         profile_photo: null,
     });
 
@@ -43,7 +43,6 @@ export default function Register({ success }) {
                 if (success) {
                     console.log(success);
                 }
-
                 setModalTitle("Success!");
                 setModalContent("The user was added successfully");
                 reset();
@@ -296,36 +295,16 @@ export default function Register({ success }) {
                                         }
                                         disabled={data.role === "Admin"}
                                     >
-                                        <MenuItem
-                                            className="text-gray-900"
-                                            value="Mzuzu Central Hospital"
-                                        >
-                                            Mzuzu Central Hospital
-                                        </MenuItem>
-                                        <MenuItem
-                                            className="text-gray-900"
-                                            value="Wezi Private Hospital"
-                                        >
-                                            Wezi Private Hospital
-                                        </MenuItem>
-                                        <MenuItem
-                                            className="text-gray-900"
-                                            value="Luwinga Clinic"
-                                        >
-                                            Luwinga Clinic
-                                        </MenuItem>
-                                        <MenuItem
-                                            className="text-gray-900"
-                                            value="Mzuzu BLM"
-                                        >
-                                            Mzuzu BLM
-                                        </MenuItem>
-                                        <MenuItem
-                                            className="text-gray-900"
-                                            value="Mzuzu MASM Clinic"
-                                        >
-                                            Mzuzu MASM Clinic
-                                        </MenuItem>
+                                        {hospitals &&
+                                            hospitals.map((hospital) => (
+                                                <MenuItem
+                                                    key={hospital.id}
+                                                    className="text-gray-900"
+                                                    value={hospital.id}
+                                                >
+                                                    {hospital.name}
+                                                </MenuItem>
+                                            ))}
                                     </Select>
                                 </FormControl>
                                 <InputError

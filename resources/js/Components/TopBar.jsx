@@ -7,11 +7,12 @@ import {
     Toolbar,
     Divider,
     Button,
+    Avatar,
 } from "@mui/material";
 
 import { HiOutlineMenuAlt1, HiUserCircle } from "react-icons/hi";
 import NavLink from "./NavLink";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import DarkMode from "./DarkMode/DarkMode";
 
 export default function TopBar({
@@ -22,6 +23,7 @@ export default function TopBar({
     handleClose,
     role,
 }) {
+    const { auth } = usePage().props;
     return (
         <AppBar
             position="fixed"
@@ -53,7 +55,7 @@ export default function TopBar({
                 {}
                 {role === "Specialist" && (
                     <Link
-                        href={"/referrals/new"}
+                        href={route("referrals.new")}
                         className="my-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                     >
                         New Referral
@@ -75,7 +77,10 @@ export default function TopBar({
                         aria-haspopup="true"
                         onClick={handleMenu}
                     >
-                        <HiUserCircle />
+                        <Avatar
+                            alt={auth.user.name}
+                            src={auth.user.profile_photo}
+                        />
                     </IconButton>
                     <Menu
                         id="menu-appbar"
@@ -93,18 +98,19 @@ export default function TopBar({
                         onClose={handleClose}
                     >
                         <MenuItem onClick={handleClose}>
-                            <NavLink href={route("profile.edit")}>
+                            <Link className="px-4" href={route("profile.edit")}>
                                 Profile
-                            </NavLink>
+                            </Link>
                         </MenuItem>
                         <MenuItem onClick={handleClose}>
-                            <NavLink
+                            <Link
+                                className="px-4"
                                 href={route("logout")}
                                 method="post"
                                 as="button"
                             >
                                 Log Out
-                            </NavLink>
+                            </Link>
                         </MenuItem>
                     </Menu>
                 </div>

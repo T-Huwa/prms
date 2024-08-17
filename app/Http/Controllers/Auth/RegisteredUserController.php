@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Hospital;
 use App\Models\User;
 use Exception;
 use Illuminate\Auth\Events\Registered;
@@ -26,6 +27,13 @@ class RegisteredUserController extends Controller
         return Inertia::render('Auth/Register');
     }
 
+    public function show(){
+        $hospitals = Hospital::all();
+        return Inertia::render('Admin/Register', [
+            'hospitals' => $hospitals,
+        ]);
+    }
+
     /**
      * Handle an incoming registration request.
      *
@@ -41,7 +49,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'string'],
             'specialty' => 'nullable|string',
-            'hospital_id' => 'nullable|string',
+            'hospital_id' => 'nullable|integer',
             'profile_photo' => 'nullable|string',
         ]);
 
@@ -58,8 +66,6 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         //return response()->json(['success' => 'User added successfully'], 200);
-        return Inertia::render('Admin/Register', [
-            'success' => 'User added successfully'
-        ]);
+        return redirect()->route('users.register');
     }
 }

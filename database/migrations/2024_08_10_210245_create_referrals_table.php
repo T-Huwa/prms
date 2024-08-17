@@ -49,11 +49,11 @@ class CreateReferralsTable extends Migration
             $table->enum('status', [
                 'Requested', 
                 'Sent', 
-                'Accepted', 
                 'Under Treatment', 
                 'Referred Back', 
                 'Discharged', 
-                'Pending'
+                'Pending',
+                'Cancelled'
             ]);            
             $table->timestamps();
         });

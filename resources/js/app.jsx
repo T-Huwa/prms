@@ -10,9 +10,9 @@ import { StyledEngineProvider } from "@mui/material";
 const theme = createTheme({
     typography: {
         allVariants: {
-            fontFamily: "Poppins",
+            fontFamily: "Poppins-Regular",
             textTransform: "none",
-            fontSize: 13,
+            fontSize: "0.875rem",
         },
     },
 });
@@ -38,7 +38,7 @@ createInertiaApp({
         );
     },
     progress: {
-        delay: 250,
+        delay: 50,
         color: "rgb(var(--border))",
     },
 });

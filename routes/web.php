@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\UserController;
+use App\Models\Hospital;
 use App\Models\Referral;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +30,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     })->name('admin.dashboard');
         
     Route::get('/users/register', function () {
-        return Inertia::render('Admin/Register');
+        $hospitals = Hospital::all();
+        return Inertia::render('Admin/Register', [
+            'hospitals' => $hospitals,
+        ]);
     })->name('users.register');
 
     Route::get('/users', [UserController::class, 'index'])->name('users');
@@ -49,11 +54,14 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/referrals/new', [ReferralController::class, 'create'])->name('referral.create');
-Route::get('/referrals/{id}', [ReferralController::class, 'show'])->name('referral.view');
-Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
-
+Route::get('/referrals/new', [ReferralController::class, 'create'])->name('referrals.new');
+Route::post('/referrals/new', [ReferralController::class, 'store'])->name('referrals.store');
+Route::get('/referrals/{id}', [ReferralController::class, 'show'])->name('referrals.view');
 Route::get('/referrals', [ReferralController::class, 'index'])->name('incoming');
+
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
 Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.create');
 Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback');
+
+Route::get('/hospitals', [HospitalController::class, 'index'])->name('hospitals');
