@@ -116,7 +116,7 @@ class ReferralSeeder extends Seeder
                 'designation' => 'Designation ' . $i,
                 'DHO_name' => 'Dr. DHO ' . $i,
                 'other-remarks' => 'Remarks ' . $i,
-                'status' => ['Requested', 'Sent', 'Accepted', 'Under Treatment', 'Referred Back', 'Discharged', 'Pending'][array_rand(['Requested', 'Sent', 'Accepted', 'Under Treatment', 'Referred Back', 'Discharged', 'Pending'])],
+                'status' => 'Requested',
             ];
         }
 

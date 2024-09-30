@@ -68,6 +68,10 @@ body {
     filter: drop-shadow(0 0 0.2em #646cffaa);
 }
 
+.MuiPopper-root {
+    color: black;
+}
+
 .active {
     filter: drop-shadow(0 0 0.2em #646cffaa);
 }

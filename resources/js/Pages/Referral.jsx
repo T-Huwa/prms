@@ -21,7 +21,7 @@ import axios from "axios";
 
 const Referral = () => {
     const { props } = usePage();
-    const { referral, auth } = props;
+    const { referral, auth, hospital } = props;
     const [hospitals, setHospitals] = useState(null);
 
     useEffect(() => {
@@ -156,12 +156,7 @@ const Referral = () => {
                                 </TableCell>
 
                                 <TableCell className="text-front">
-                                    {hospitals &&
-                                        hospitals.find(
-                                            (h) =>
-                                                h.id ===
-                                                referral.hospital_from_id
-                                        ).name}
+                                    {hospital}
                                 </TableCell>
                             </TableRow>
 
@@ -449,26 +444,10 @@ const Referral = () => {
                                     {referral["other-remarks"]}
                                 </TableCell>
                             </TableRow>
-
-                            {/* {Object.keys(referral).map((key) => (
-                                <TableRow key={key}>
-                                    <TableCell
-                                        component="td"
-                                        scope="row"
-                                        className="text-front"
-                                    >
-                                        {key}
-                                    </TableCell>
-                                    <TableCell className="text-front">
-                                        {Array.isArray(referral[key])
-                                            ? referral[key].join(", ")
-                                            : referral[key]}
-                                    </TableCell>
-                                </TableRow>
-                            ))} */}
                             <TableCell></TableCell>
                             <TableCell className="flex justify-end">
                                 <ReferralAction
+                                    referral={referral}
                                     role={auth.user.role}
                                     status={referral.status}
                                 />

@@ -60,4 +60,8 @@ class User extends Authenticatable
         return $this->belongsTo(Hospital::class, 'hospital_id');
     }
 
+    public function ward()
+    {
+        return $this->belongsTo(Ward::class, 'ward_id');
+    }
 }

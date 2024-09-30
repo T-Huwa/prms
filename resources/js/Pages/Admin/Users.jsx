@@ -60,7 +60,7 @@ export default function Users({ auth, users, success }) {
         setModalOpen(true);
     }
     return (
-        <AuthLayout user={auth.user}>
+        <AuthLayout>
             <Head title="Admin Dashboard" />
 
             <div>

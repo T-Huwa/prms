@@ -205,6 +205,12 @@ export default function Register({ success, hospitals }) {
                                         >
                                             Specialist
                                         </MenuItem>
+                                        <MenuItem
+                                            className="text-gray-900"
+                                            value="Doctor"
+                                        >
+                                            Doctor
+                                        </MenuItem>
                                     </Select>
                                 </FormControl>
                                 <InputError
@@ -212,7 +218,46 @@ export default function Register({ success, hospitals }) {
                                     className="mt-2"
                                 />
                             </div>
-
+                            {/* Hospital Select Menu */}
+                            <div
+                                className={
+                                    (data.role === "Admin" && "hidden") ||
+                                    "mt-4 bg-background"
+                                }
+                            >
+                                <FormControl className="xs:w-full w-1/2">
+                                    <Typography className="text-front">
+                                        Hospital
+                                    </Typography>
+                                    <Select
+                                        className="mt-1 block w-full bg-background border border-front text-front"
+                                        name="role"
+                                        value={data.hospital_id}
+                                        onChange={(e) =>
+                                            setData(
+                                                "hospital_id",
+                                                e.target.value
+                                            )
+                                        }
+                                        disabled={data.role === "Admin"}
+                                    >
+                                        {hospitals &&
+                                            hospitals.map((hospital) => (
+                                                <MenuItem
+                                                    key={hospital.id}
+                                                    className="text-gray-900"
+                                                    value={hospital.id}
+                                                >
+                                                    {hospital.name}
+                                                </MenuItem>
+                                            ))}
+                                    </Select>
+                                </FormControl>
+                                <InputError
+                                    message={errors.hospital_id}
+                                    className="mt-2"
+                                />
+                            </div>
                             {/* Specialty Select Menu */}
                             <div
                                 className={
@@ -268,47 +313,6 @@ export default function Register({ success, hospitals }) {
 
                                 <InputError
                                     message={errors.specialty}
-                                    className="mt-2"
-                                />
-                            </div>
-
-                            {/* Hospital Select Menu */}
-                            <div
-                                className={
-                                    (data.role === "Admin" && "hidden") ||
-                                    "mt-4 bg-background"
-                                }
-                            >
-                                <FormControl className="xs:w-full w-1/2">
-                                    <Typography className="text-front">
-                                        Hospital
-                                    </Typography>
-                                    <Select
-                                        className="mt-1 block w-full bg-background border border-front text-front"
-                                        name="role"
-                                        value={data.hospital_id}
-                                        onChange={(e) =>
-                                            setData(
-                                                "hospital_id",
-                                                e.target.value
-                                            )
-                                        }
-                                        disabled={data.role === "Admin"}
-                                    >
-                                        {hospitals &&
-                                            hospitals.map((hospital) => (
-                                                <MenuItem
-                                                    key={hospital.id}
-                                                    className="text-gray-900"
-                                                    value={hospital.id}
-                                                >
-                                                    {hospital.name}
-                                                </MenuItem>
-                                            ))}
-                                    </Select>
-                                </FormControl>
-                                <InputError
-                                    message={errors.hospital_id}
                                     className="mt-2"
                                 />
                             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hospital;
 use App\Models\Referral;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,36 @@ class ReferralController extends Controller
 
         // Return an Inertia response with the referrals data
         return Inertia::render('Incoming', [
+            'referrals' => $referrals
+        ]);
+    }
+
+    public function outgoingReferrals()
+    {
+        $userHospitalId = Auth::user()->hospital_id;
+        // Return an Inertia response with the referral data
+        $referrals = Referral::where('hospital_from_id', $userHospitalId)
+                    ->where('status', 'Sent')
+                    ->with('referringOfficer:id,name') // Eager load referring officer's name
+                    ->get();
+
+        // Return an Inertia response with the referrals data
+        return Inertia::render('Outgoing', [
+            'referrals' => $referrals,
+        ]);
+    }
+
+    public function internalReferrals()
+    {
+        $userHospitalId = Auth::user()->hospital_id;
+        // Return an Inertia response with the referral data
+        $referrals = Referral::where('hospital_from_id', $userHospitalId)
+                    ->where('status', 'Requested')
+                    ->with('referringOfficer:id,name') // Eager load referring officer's name
+                    ->get();
+
+        // Return an Inertia response with the referrals data
+        return Inertia::render('Internal', [
             'referrals' => $referrals
         ]);
     }
@@ -92,10 +123,12 @@ class ReferralController extends Controller
     {
         // Find the referral by ID or return a 404 error if not found
         $referral = Referral::find($id);
+        $hospital = Hospital::find($referral->hospital_from_id);
 
         // Return an Inertia response with the referral data
         return Inertia::render('Referral', [
-            'referral' => $referral
+            'referral' => $referral,
+            'hospital' => $hospital->name,
         ]);
     }
 
@@ -114,6 +147,30 @@ class ReferralController extends Controller
     {
         //
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        // Validate the incoming request to ensure status is provided
+        $validated = $request->validate([
+            'status' => 'required|string',  // Adjust validation based on your needs (e.g., enum)
+        ]);
+
+        // Find the referral by ID
+        $referral = Referral::findOrFail($id);
+
+        // Update the referral's status
+        $referral->status = $validated['status'];
+
+        // Save the changes to the database
+        $referral->save();
+
+        // Return a response (can be JSON or redirect depending on your application)
+        return response()->json([
+            'message' => 'Referral status updated successfully',
+            'referral' => $referral,
+        ]);
+    }
+
 
     /**
      * Remove the specified resource from storage.

@@ -14,18 +14,18 @@ import {
 } from "@mui/material";
 import AuthLayout from "@/Layouts/AuthLayout.jsx";
 
-export default function Incoming({ auth }) {
+export default function Internal({ auth }) {
     const { referrals } = usePage().props;
 
     console.log(auth.user);
 
     return (
         <>
-            <Head title="Incoming Referrals" />
+            <Head title="Internal Referrals" />
             <AuthLayout>
                 <Box className="px-4 md:px-16">
                     <Divider className="text-xl mb-5">
-                        Incoming Referrals
+                        Internal Referrals
                     </Divider>
                     <TableContainer
                         component={Paper}
@@ -38,7 +38,7 @@ export default function Incoming({ auth }) {
                                         Name
                                     </TableCell>
                                     <TableCell className="text-lg">
-                                        Hospital
+                                        Referring Officer
                                     </TableCell>
                                     <TableCell className="text-lg">
                                         Status
@@ -67,7 +67,7 @@ export default function Incoming({ auth }) {
                                             {referral.name}
                                         </TableCell>
                                         <TableCell className="text-front">
-                                            {referral.hospital}
+                                            {referral.referring_officer.name}
                                         </TableCell>
                                         <TableCell className="text-front">
                                             {referral.status}

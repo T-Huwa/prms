@@ -11,6 +11,7 @@ class Referral extends Model
     /*
     * @var array<int, string>
     */
+    protected $appends = ['hospital'];
     protected $fillable = [
         'urgency',
         'hospital_from_id',
@@ -55,4 +56,30 @@ class Referral extends Model
             'reasons' => 'array',
         ];
     }
+
+    public function getHospitalAttribute()
+    {
+        return $this->targetHospital ? $this->targetHospital->name : null;
+    }
+
+    public function targetHospital()
+    {
+        return $this->belongsTo(Hospital::class, 'hospital_to_id');
+    }
+
+    public function sourceHospitalRelation()
+    {
+        return $this->belongsTo(Hospital::class, 'hospital_from_id');
+    }
+
+    public function referringOfficer()
+    {
+        return $this->belongsTo(User::class, 'referring_officer_id');
+    }
+
+    public function receivingOfficer()
+    {
+        return $this->belongsTo(User::class, 'receiving_officer_id');
+    }
+
 }

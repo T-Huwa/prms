@@ -47,10 +47,10 @@ class CreateReferralsTable extends Migration
             $table->string('DHO_name');
             $table->longText('other-remarks')->nullable();
             $table->enum('status', [
-                'Requested', 
+                'Requested',
                 'Sent', 
-                'Under Treatment', 
-                'Referred Back', 
+                'Under Treatment',
+                'Referred Back',
                 'Discharged', 
                 'Pending',
                 'Cancelled'

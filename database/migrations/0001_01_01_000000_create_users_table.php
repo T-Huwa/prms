@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('profile_photo')->nullable();
             $table->foreignId('hospital_id')->nullable()->constrained('hospitals');
-            $table->enum('role', ['Admin', 'Specialist', 'Nurse']);
+            $table->foreignId('ward_id')->nullable()->constrained('wards');
+            $table->enum('role', ['Admin', 'Specialist', 'Nurse', 'Doctor']);
             $table->string('specialty')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -61,15 +61,43 @@ const SideNav = () => {
                     <ListItem>
                         <NavLink
                             href={route("incoming")}
-                            active={usePage().url.includes("referrals")}
+                            active={usePage().url.includes("incoming")}
                             className="w-full"
                         >
                             <ListItemIcon>
                                 <FaFileArrowDown className="mr-3 w-5 h-5" />
                             </ListItemIcon>
-                            <ListItemText primary="Referrals" />
+                            <ListItemText primary="Incoming" />
                         </NavLink>
                     </ListItem>
+
+                    <ListItem>
+                        <NavLink
+                            href={route("outgoing")}
+                            active={usePage().url.includes("outgoing")}
+                            className="w-full"
+                        >
+                            <ListItemIcon>
+                                <FaFileArrowDown className="mr-3 w-5 h-5" />
+                            </ListItemIcon>
+                            <ListItemText primary="Outgoing" />
+                        </NavLink>
+                    </ListItem>
+
+                    {role === "Specialist" && (
+                        <ListItem>
+                            <NavLink
+                                href={route("internal")}
+                                active={usePage().url.includes("internal")}
+                                className="w-full"
+                            >
+                                <ListItemIcon>
+                                    <FaFileArrowDown className="mr-3 w-5 h-5" />
+                                </ListItemIcon>
+                                <ListItemText primary="Internal" />
+                            </NavLink>
+                        </ListItem>
+                    )}
 
                     {role === "Admin" && (
                         <>
@@ -92,8 +120,8 @@ const SideNav = () => {
 
                             <ListItem>
                                 <NavLink
-                                    href="/admin/users"
-                                    active={component === "UsersAll"}
+                                    href={route("hospitals")}
+                                    active={usePage().url.includes("hospitals")}
                                     className="w-full"
                                 >
                                     <ListItemIcon>

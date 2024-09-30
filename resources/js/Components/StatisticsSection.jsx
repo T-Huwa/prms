@@ -26,25 +26,24 @@ const StatisticsSection = () => (
             />
         </Grid>
         <Grid item xs={12} md={3}>
-            <StatisticCard title="Deaths" value="0" change="0.0 last 7 days" />
+            <StatisticCard
+                title="Cancelled Requests"
+                value="0"
+                change="0.0 last 7 days"
+            />
         </Grid>
         <Grid
-            className="bg-gray-100 mt-5 rounded-lg shadow-xl border-2 border-gray-300"
+            className="bg-white my-8 mx-12 justify-center w-full rounded-lg shadow-xl border-2 border-gray-300"
             item
-            xs={2}
-            md={12}
         >
             <LineChart
-                xAxis={[{ data: [1, 2, 3, 5, 8, 10, 12] }]}
+                xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
                 series={[
-                    { data: [0, 5, 2, 6, 3, 9.3] },
-                    { data: [6, 3, 7, 9.5, 4, 2] },
-                    { data: [12, 9, 7, 2.1, 10, 1] },
-                    { data: [4, 3, 6, 4.5, 9.2, 12] },
+                    {
+                        data: [2, 5.5, 2, 8.5, 1.5, 5],
+                    },
                 ]}
                 height={300}
-                margin={{ left: 30, right: 30, top: 30, bottom: 30 }}
-                grid={{ horizontal: true }}
             />
         </Grid>
     </Grid>

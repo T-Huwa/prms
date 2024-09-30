@@ -43,6 +43,10 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('specialist.dashboard', absolute: false));
         }
 
+        if ($user->role === 'Doctor') {
+            return redirect()->intended(route('doctor.dashboard', absolute: false));
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

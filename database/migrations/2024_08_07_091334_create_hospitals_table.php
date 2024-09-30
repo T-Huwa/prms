@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('type');
+            $table->foreignId('district_hospital_id')->nullable()->constrained('hospitals');
+            $table->foreignId('central_hospital_id')->nullable()->constrained('hospitals');
             $table->timestamps();
         });
     }
