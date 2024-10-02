@@ -67,6 +67,8 @@ Route::prefix('referrals')->group(function (){
     Route::get('incoming', [ReferralController::class, 'index'])->name('incoming');
     Route::get('outgoing', [ReferralController::class, 'outgoingReferrals'])->name('outgoing');
     Route::get('internal', [ReferralController::class, 'internalReferrals'])->name('internal'); 
+    Route::patch('refer', [ReferralController::class, 'refer'])->name('refer'); 
+    Route::put('assignDoctor', [ReferralController::class, 'assignDoctor'])->name('assignDoctor'); 
     Route::put('updateStatus/{id}', [ReferralController::class, 'updateStatus'])->name('referral.update.status'); 
 });
 
@@ -82,6 +84,7 @@ Route::prefix('hospitals')->group(function (){
     Route::post('addNew', [HospitalController::class, 'store'])->middleware('admin')->name('hospitals.register');
     Route::get('/{id}', [HospitalController::class, 'show'])->name('hospitals.view');
     Route::get('/{id}/staff', [HospitalController::class, 'getStaff'])->name('hospitals.get.staff');
+    Route::get('/referralHospitals', [HospitalController::class, 'getReferralHospitals'])->name('hospitals.referrals.get');
 });
 
 Route::prefix('wards')->group(function (){

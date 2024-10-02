@@ -13,31 +13,11 @@ import {
     Typography,
 } from "@mui/material";
 import BackButton from "@/Components/BackButton";
-import { usePage } from "@inertiajs/react";
 import AuthLayout from "@/Layouts/AuthLayout";
 import { Head } from "@inertiajs/react";
 import ReferralAction from "@/Components/ReferralAction";
-import axios from "axios";
 
-const Referral = () => {
-    const { props } = usePage();
-    const { referral, auth, hospital } = props;
-    const [hospitals, setHospitals] = useState(null);
-
-    useEffect(() => {
-        axios
-            .get("/hospitals")
-            .then((response) => {
-                setHospitals(response.data);
-            })
-            .catch((error) => {
-                console.error(
-                    "There was an error fetching the hospitals!",
-                    error
-                );
-            });
-    }, []);
-
+const Referral = ({ referral, auth, hospital, hospitals }) => {
     if (!referral) {
         return (
             <AuthLayout>
@@ -450,6 +430,8 @@ const Referral = () => {
                                     referral={referral}
                                     role={auth.user.role}
                                     status={referral.status}
+                                    hospitals={hospitals}
+                                    userHospitalId={auth.user.hospital_id}
                                 />
                             </TableCell>
                         </TableBody>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Hospital;
 use App\Http\Requests\UpdateHospitalRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class HospitalController extends Controller
@@ -119,16 +121,26 @@ class HospitalController extends Controller
         //
     }
 
-    public function getStaff($id)
+    public function getStaff(Request $request, $id)
     {
+        $ward = $request->ward;
         // Find the hospital by its ID
         $hospital = Hospital::findOrFail($id);
 
-        // Fetch the hospital's specialists, nurses, and doctors
+        $doctors = null;
         // Assuming relationships: specialists(), nurses(), and doctors() are defined in the Hospital model
         $specialists = $hospital->specialists()->with(['ward:id,name'])->get();
         $nurses = $hospital->nurses;
-        $doctors = $hospital->doctors()->with(['ward:id,name'])->get();;
+        
+        if($ward){
+            $doctors = $hospital->doctors()->where('ward_id', Auth::user()->ward_id)->with(['ward:id,name'])->get();
+            // Return the data as a JSON response
+            return response()->json([
+                'doctors' => $doctors,
+            ]);
+        }
+            
+        $doctors = $hospital->doctors()->with(['ward:id,name'])->get();
 
         // Return the data as a JSON response
         return response()->json([
@@ -137,4 +149,39 @@ class HospitalController extends Controller
             'doctors' => $doctors,
         ]);
     }
+
+    public function getReferralHospitals(Request $request) {
+        /* Get the type of hospital from the authenticated user's hospital_id
+        Log::info('Hospital ID:', ['hospital_id' => Auth::user()->hospital_id]);
+
+        $hospital = Hospital::findOrFail($request->user()->hospital_id);
+        if (!$hospital) {
+            return response()->json(['error' => 'Hospital not found'], 404);
+        }
+        $hospital_type = $hospital->type;
+
+        // Initialize the variable to hold the query result
+        $hospitals = null;
+
+        // Check the hospital type and adjust the query accordingly
+        if($hospital_type === 'Central') {
+            $hospitals = Hospital::where('type', 'Central')
+                                ->orWhere('type', 'Private')
+                                ->get();
+        } elseif($hospital_type === 'H-Center') {
+            $hospitals = Hospital::where('type', 'District')
+                                ->orWhere('type', 'Private')
+                                ->get();
+        } elseif($hospital_type === 'District') {
+            $hospitals = Hospital::where('type', 'Central')
+                                ->orWhere('type', 'Private')
+                                ->get();
+        }*/
+
+        // Return the query result as a JSON response
+        return response()->json([
+            'hospitals' => Hospital::all(),
+        ]);
+    }
+
 }

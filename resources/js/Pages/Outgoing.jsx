@@ -14,43 +14,28 @@ import {
 } from "@mui/material";
 import AuthLayout from "@/Layouts/AuthLayout.jsx";
 
-export default function Outgoing() {
-    const { referrals } = usePage().props;
-    console.log(referrals);
-
+export default function Outgoing({ referrals }) {
     return (
         <>
             <Head title="Outgoing Referrals" />
             <AuthLayout>
-                <Box className="px-4 md:px-16">
+                <Box>
                     <Divider className="text-xl mb-5">
                         Outgoing Referrals
                     </Divider>
                     <TableContainer
                         component={Paper}
-                        className="text-front rounded-xl shadow-lg bg-background border-2 border-bd"
+                        className="text-front rounded-lg shadow-lg bg-background border-2 border-bd"
                     >
                         <Table>
                             <TableHead className="bg-blue-300">
                                 <TableRow>
-                                    <TableCell className="text-lg">
-                                        Name
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Referral Officer
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Status
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Working Diagnosis
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Reported On / Urgency
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Target Hospital
-                                    </TableCell>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Referral Officer</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Working Diagnosis</TableCell>
+                                    <TableCell>Reported On / Urgency</TableCell>
+                                    <TableCell>Target Hospital</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

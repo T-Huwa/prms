@@ -23,32 +23,22 @@ export default function Internal({ auth }) {
         <>
             <Head title="Internal Referrals" />
             <AuthLayout>
-                <Box className="px-4 md:px-16">
+                <Box>
                     <Divider className="text-xl mb-5">
                         Internal Referrals
                     </Divider>
                     <TableContainer
                         component={Paper}
-                        className="text-front rounded-xl shadow-lg bg-background border-2 border-bd"
+                        className="text-front rounded-lg shadow-lg bg-background border-2 border-bd"
                     >
                         <Table>
                             <TableHead className="bg-blue-300">
                                 <TableRow>
-                                    <TableCell className="text-lg">
-                                        Name
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Referring Officer
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Status
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Working Diagnosis
-                                    </TableCell>
-                                    <TableCell className="text-lg">
-                                        Reported On / Urgency
-                                    </TableCell>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Referring Officer</TableCell>
+                                    <TableCell>Status</TableCell>
+                                    <TableCell>Working Diagnosis</TableCell>
+                                    <TableCell>Reported On / Urgency</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

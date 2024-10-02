@@ -6,7 +6,7 @@ use App\Models\Hospital;
 use App\Models\Referral;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 use Inertia\Inertia;
 
 class ReferralController extends Controller
@@ -17,7 +17,7 @@ class ReferralController extends Controller
     public function index()
     {
         // Return an Inertia response with the referral data
-        $referrals = Referral::all();
+        $referrals = Referral::where('hospital_to_id', Auth::user()->hospital_id)->get();
 
         // Return an Inertia response with the referrals data
         return Inertia::render('Incoming', [
@@ -27,17 +27,30 @@ class ReferralController extends Controller
 
     public function outgoingReferrals()
     {
-        $userHospitalId = Auth::user()->hospital_id;
+        $user = Auth::user();
+        $userHospitalId = $user->hospital_id;
         // Return an Inertia response with the referral data
-        $referrals = Referral::where('hospital_from_id', $userHospitalId)
+        if($user->role === 'Specialist'){
+            $referrals = Referral::where('hospital_from_id', $userHospitalId)
                     ->where('status', 'Sent')
                     ->with('referringOfficer:id,name') // Eager load referring officer's name
                     ->get();
-
+            // Return an Inertia response with the referrals data
+            return Inertia::render('Outgoing', [
+                'referrals' => $referrals,
+            ]);
+        }
+        
+        $referrals = Referral::where('hospital_from_id', $userHospitalId)
+                ->where('status', 'Requested')
+                ->where('referring_officer_id', $user->id)
+                ->with('referringOfficer:id,name') // Eager load referring officer's name
+                ->get();
         // Return an Inertia response with the referrals data
         return Inertia::render('Outgoing', [
             'referrals' => $referrals,
         ]);
+        
     }
 
     public function internalReferrals()
@@ -119,16 +132,41 @@ class ReferralController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         // Find the referral by ID or return a 404 error if not found
         $referral = Referral::find($id);
         $hospital = Hospital::find($referral->hospital_from_id);
 
+        $hospitals = null;
+        //Get the type of hospital from the authenticated user's hospital_id
+
+        $user_hospital = Hospital::findOrFail($request->user()->hospital_id);
+        if (!$user_hospital) {
+            return response()->json(['error' => 'Hospital not found'], 404);
+        }
+        $hospital_type = $user_hospital->type;
+
+        // Check the hospital type and adjust the query accordingly
+        if($hospital_type === 'Central') {
+            $hospitals = Hospital::where('type', 'Central')
+                                ->orWhere('type', 'Private')
+                                ->get();
+        } elseif($hospital_type === 'H-Center') {
+            $hospitals = Hospital::where('type', 'District')
+                                ->orWhere('type', 'Private')
+                                ->get();
+        } elseif($hospital_type === 'District') {
+            $hospitals = Hospital::where('type', 'Central')
+                                ->orWhere('type', 'Private')
+                                ->get();
+        }
+
         // Return an Inertia response with the referral data
         return Inertia::render('Referral', [
             'referral' => $referral,
             'hospital' => $hospital->name,
+            'hospitals' => $hospitals,
         ]);
     }
 
@@ -146,6 +184,15 @@ class ReferralController extends Controller
     public function update(Request $request, Referral $referral)
     {
         //
+    }
+
+    public function refer(Request $request)
+    {
+        $referral = Referral::findOrFail($request->referralId);
+        $referral->hospital_to_id = $request->hospitalId;
+        $referral->status = "Sent";
+        $referral->save();
+        return response()->json(['message' => 'referral successful']);
     }
 
     public function updateStatus(Request $request, $id)
@@ -178,5 +225,29 @@ class ReferralController extends Controller
     public function destroy(Referral $referral)
     {
         //
+    }
+
+    public function assignDoctor(Request $request){
+            // Validate the input
+    $request->validate([
+        'receiving_officer_id' => 'required|exists:users,id', // Ensures the officer exists in the users table
+        'referral_id' => 'required|exists:referrals,id', // Ensures the officer exists in the users table
+    ]);
+
+    // Find the referral by id
+    $referral = Referral::findOrFail($request->referral_id);
+
+    // Update the receiving_officer_id
+    $referral->receiving_officer_id = $request->receiving_officer_id;
+    $referral->status = "Under Treatment";
+
+    // Save the changes
+    $referral->save();
+
+    // Return a success response
+    return response()->json([
+        'message' => 'Receiving officer updated successfully',
+        'referral' => $referral,
+    ]);
     }
 }
