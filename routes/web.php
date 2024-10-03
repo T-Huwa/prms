@@ -75,8 +75,12 @@ Route::prefix('referrals')->group(function (){
 
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
-Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.create');
-Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback');
+Route::prefix('feedback')->group(function (){
+    Route::post('/', [FeedbackController::class, 'store'])->name('feedback.create');
+    Route::get('/', [FeedbackController::class, 'create'])->name('feedback');
+    Route::get('show/{id}', [FeedbackController::class, 'show'])->name('feedback.show');
+});
+
 
 Route::prefix('hospitals')->group(function (){
     Route::get('addNew', [HospitalController::class, 'create'])->middleware('admin')->name('hospitals.register');

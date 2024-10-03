@@ -1,101 +1,84 @@
-import React, { useState } from "react";
-import { useForm } from "@inertiajs/react";
+import React from "react";
+import { Head, router, useForm } from "@inertiajs/react";
 import AuthLayout from "@/Layouts/AuthLayout";
+import { Divider } from "@mui/material";
 
-const FeedbackForm = () => {
-    const { data, setData, post, processing, errors } = useForm({
-        central_hospital: "",
-        responding_department: "",
-        reporting_officer: "",
+const FeedbackForm = ({ referral_id }) => {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        referral_id: referral_id,
         date: "",
-        name_of_patient: "",
         final_diagnosis: "",
         other_diagnoses: "",
-        management_1: "",
-        management_2: "",
-        management_3: "",
+        management: [""],
         type_of_surgery: "",
         findings: "",
         outcome: "",
-        post_discharge_instruction_1: "",
-        post_discharge_instruction_2: "",
-        post_discharge_instruction_3: "",
+        post_discharge_instructions: [""],
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post("/feedback");
+        const payload = {
+            ...data,
+            management: JSON.stringify(data.management || []),
+            post_discharge_instructions: JSON.stringify(
+                data.post_discharge_instructions || []
+            ),
+        };
+        post(route("feedback.create"), payload);
+        reset();
+        router.visit(route("incoming"));
+    };
+
+    // Handle dynamic fields for Management
+    const handleManagementChange = (index, value) => {
+        const updatedManagement = [...(data.management || [])];
+        updatedManagement[index] = value;
+        setData("management", updatedManagement);
+    };
+
+    const addManagementField = () => {
+        setData("management", [...(data.management || []), ""]);
+    };
+
+    const removeManagementField = (index) => {
+        const updatedManagement = (data.management || []).filter(
+            (_, i) => i !== index
+        );
+        setData("management", updatedManagement);
+    };
+
+    // Handle dynamic fields for Post Discharge Instructions
+    const handleInstructionChange = (index, value) => {
+        const updatedInstructions = [
+            ...(data.post_discharge_instructions || []),
+        ];
+        updatedInstructions[index] = value;
+        setData("post_discharge_instructions", updatedInstructions);
+    };
+
+    const addInstructionField = () => {
+        setData("post_discharge_instructions", [
+            ...(data.post_discharge_instructions || []),
+            "",
+        ]);
+    };
+
+    const removeInstructionField = (index) => {
+        const updatedInstructions = (
+            data.post_discharge_instructions || []
+        ).filter((_, i) => i !== index);
+        setData("post_discharge_instructions", updatedInstructions);
     };
 
     return (
         <AuthLayout>
-            <div className="max-w-3xl mx-auto bg-white p-6 shadow-md rounded-md">
-                <h1 className="text-2xl font-bold mb-6">Submit Feedback</h1>
+            <Head title="Feedback" />
+            <div className="max-w-xl mx-auto bg-background p-6 border-bd border-2 shadow-md rounded-md">
+                <h1 className="text-2xl font-bold mb-6">Referral Feedback</h1>
+                <Divider className="border-bd my-4" />
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 gap-6">
-                        {/* Central Hospital */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Central Hospital
-                            </label>
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.central_hospital}
-                                onChange={(e) =>
-                                    setData("central_hospital", e.target.value)
-                                }
-                            />
-                            {errors.central_hospital && (
-                                <p className="text-sm text-red-600">
-                                    {errors.central_hospital}
-                                </p>
-                            )}
-                        </div>
-
-                        {/* Responding Department */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Responding Department
-                            </label>
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.responding_department}
-                                onChange={(e) =>
-                                    setData(
-                                        "responding_department",
-                                        e.target.value
-                                    )
-                                }
-                            />
-                            {errors.responding_department && (
-                                <p className="text-sm text-red-600">
-                                    {errors.responding_department}
-                                </p>
-                            )}
-                        </div>
-
-                        {/* Reporting Officer */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Full Name and Signature of Reporting Officer
-                            </label>
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.reporting_officer}
-                                onChange={(e) =>
-                                    setData("reporting_officer", e.target.value)
-                                }
-                            />
-                            {errors.reporting_officer && (
-                                <p className="text-sm text-red-600">
-                                    {errors.reporting_officer}
-                                </p>
-                            )}
-                        </div>
-
                         {/* Date */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
@@ -103,36 +86,16 @@ const FeedbackForm = () => {
                             </label>
                             <input
                                 type="date"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                                 value={data.date}
                                 onChange={(e) =>
                                     setData("date", e.target.value)
                                 }
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                             />
                             {errors.date && (
-                                <p className="text-sm text-red-600">
+                                <div className="text-red-500 text-sm mt-1">
                                     {errors.date}
-                                </p>
-                            )}
-                        </div>
-
-                        {/* Name of Patient */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Name of Patient
-                            </label>
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.name_of_patient}
-                                onChange={(e) =>
-                                    setData("name_of_patient", e.target.value)
-                                }
-                            />
-                            {errors.name_of_patient && (
-                                <p className="text-sm text-red-600">
-                                    {errors.name_of_patient}
-                                </p>
+                                </div>
                             )}
                         </div>
 
@@ -143,16 +106,16 @@ const FeedbackForm = () => {
                             </label>
                             <input
                                 type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                                 value={data.final_diagnosis}
                                 onChange={(e) =>
                                     setData("final_diagnosis", e.target.value)
                                 }
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                             />
                             {errors.final_diagnosis && (
-                                <p className="text-sm text-red-600">
+                                <div className="text-red-500 text-sm mt-1">
                                     {errors.final_diagnosis}
-                                </p>
+                                </div>
                             )}
                         </div>
 
@@ -163,100 +126,98 @@ const FeedbackForm = () => {
                             </label>
                             <input
                                 type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                                 value={data.other_diagnoses}
                                 onChange={(e) =>
                                     setData("other_diagnoses", e.target.value)
                                 }
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                             />
                             {errors.other_diagnoses && (
-                                <p className="text-sm text-red-600">
+                                <div className="text-red-500 text-sm mt-1">
                                     {errors.other_diagnoses}
-                                </p>
+                                </div>
                             )}
                         </div>
 
-                        {/* Management */}
+                        {/* Dynamic Management Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
                                 Management
                             </label>
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.management_1}
-                                placeholder="1."
-                                onChange={(e) =>
-                                    setData("management_1", e.target.value)
-                                }
-                            />
-                            {errors.management_1 && (
-                                <p className="text-sm text-red-600">
-                                    {errors.management_1}
-                                </p>
-                            )}
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.management_2}
-                                placeholder="2."
-                                onChange={(e) =>
-                                    setData("management_2", e.target.value)
-                                }
-                            />
-                            {errors.management_2 && (
-                                <p className="text-sm text-red-600">
-                                    {errors.management_2}
-                                </p>
-                            )}
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.management_3}
-                                placeholder="3."
-                                onChange={(e) =>
-                                    setData("management_3", e.target.value)
-                                }
-                            />
-                            {errors.management_3 && (
-                                <p className="text-sm text-red-600">
-                                    {errors.management_3}
-                                </p>
-                            )}
+                            {(data.management || []).map((item, index) => (
+                                <div
+                                    key={index}
+                                    className="flex items-center space-x-2 mt-2"
+                                >
+                                    <input
+                                        type="text"
+                                        className="block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                                        value={item}
+                                        placeholder={`Management ${index + 1}`}
+                                        onChange={(e) =>
+                                            handleManagementChange(
+                                                index,
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <button
+                                        type="button"
+                                        className="px-2 py-1 text-white bg-red-600 rounded-md hover:bg-red-700"
+                                        onClick={() =>
+                                            removeManagementField(index)
+                                        }
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                className="mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                                onClick={addManagementField}
+                            >
+                                Add Management Field
+                            </button>
                         </div>
 
-                        {/* If Surgery Done */}
+                        {/* Type of Surgery */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
-                                If Surgery Done
+                                If Surgery Done, Type of Surgery
                             </label>
                             <input
                                 type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                                 value={data.type_of_surgery}
-                                placeholder="Type of Surgery"
                                 onChange={(e) =>
                                     setData("type_of_surgery", e.target.value)
                                 }
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                             />
                             {errors.type_of_surgery && (
-                                <p className="text-sm text-red-600">
+                                <div className="text-red-500 text-sm mt-1">
                                     {errors.type_of_surgery}
-                                </p>
+                                </div>
                             )}
+                        </div>
+
+                        {/* Findings */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Findings
+                            </label>
                             <input
                                 type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                                 value={data.findings}
-                                placeholder="Findings"
                                 onChange={(e) =>
                                     setData("findings", e.target.value)
                                 }
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                             />
                             {errors.findings && (
-                                <p className="text-sm text-red-600">
+                                <div className="text-red-500 text-sm mt-1">
                                     {errors.findings}
-                                </p>
+                                </div>
                             )}
                         </div>
 
@@ -267,78 +228,65 @@ const FeedbackForm = () => {
                             </label>
                             <input
                                 type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                                 value={data.outcome}
                                 onChange={(e) =>
                                     setData("outcome", e.target.value)
                                 }
+                                className="block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                             />
                             {errors.outcome && (
-                                <p className="text-sm text-red-600">
+                                <div className="text-red-500 text-sm mt-1">
                                     {errors.outcome}
-                                </p>
+                                </div>
                             )}
                         </div>
 
-                        {/* Post Discharge Instructions */}
+                        {/* Dynamic Post Discharge Instructions Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
-                                Specific Post Discharge Instructions
+                                Post Discharge Instructions
                             </label>
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.post_discharge_instruction_1}
-                                placeholder="1."
-                                onChange={(e) =>
-                                    setData(
-                                        "post_discharge_instruction_1",
-                                        e.target.value
-                                    )
-                                }
-                            />
-                            {errors.post_discharge_instruction_1 && (
-                                <p className="text-sm text-red-600">
-                                    {errors.post_discharge_instruction_1}
-                                </p>
+                            {(data.post_discharge_instructions || []).map(
+                                (item, index) => (
+                                    <div
+                                        key={index}
+                                        className="flex items-center space-x-2 mt-2"
+                                    >
+                                        <input
+                                            type="text"
+                                            className="block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                                            value={item}
+                                            placeholder={`Instruction ${
+                                                index + 1
+                                            }`}
+                                            onChange={(e) =>
+                                                handleInstructionChange(
+                                                    index,
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                        <button
+                                            type="button"
+                                            className="px-2 py-1 text-white bg-red-600 rounded-md hover:bg-red-700"
+                                            onClick={() =>
+                                                removeInstructionField(index)
+                                            }
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+                                )
                             )}
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.post_discharge_instruction_2}
-                                placeholder="2."
-                                onChange={(e) =>
-                                    setData(
-                                        "post_discharge_instruction_2",
-                                        e.target.value
-                                    )
-                                }
-                            />
-                            {errors.post_discharge_instruction_2 && (
-                                <p className="text-sm text-red-600">
-                                    {errors.post_discharge_instruction_2}
-                                </p>
-                            )}
-                            <input
-                                type="text"
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-                                value={data.post_discharge_instruction_3}
-                                placeholder="3."
-                                onChange={(e) =>
-                                    setData(
-                                        "post_discharge_instruction_3",
-                                        e.target.value
-                                    )
-                                }
-                            />
-                            {errors.post_discharge_instruction_3 && (
-                                <p className="text-sm text-red-600">
-                                    {errors.post_discharge_instruction_3}
-                                </p>
-                            )}
+                            <button
+                                type="button"
+                                className="mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                                onClick={addInstructionField}
+                            >
+                                Add Instruction Field
+                            </button>
                         </div>
 
-                        {/* Submit Button */}
                         <div className="flex justify-end">
                             <button
                                 type="submit"

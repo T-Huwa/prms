@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feedback;
+use App\Models\Referral;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class FeedbackController extends Controller
@@ -19,9 +21,9 @@ class FeedbackController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('Doctor/FeedbackForm');
+        return Inertia::render('Doctor/FeedbackForm', ['referral_id' => $request->referral_id]);
     }
 
     /**
@@ -29,37 +31,35 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'central_hospital' => 'required|string|max:255',
-            'responding_department' => 'required|string|max:255',
-            'reporting_officer' => 'required|string|max:255',
-            'date' => 'required|date',
-            'name_of_patient' => 'required|string|max:255',
-            'final_diagnosis' => 'required|string|max:255',
-            'other_diagnoses' => 'nullable|string|max:255',
-            'management_1' => 'nullable|string|max:255',
-            'management_2' => 'nullable|string|max:255',
-            'management_3' => 'nullable|string|max:255',
-            'type_of_surgery' => 'nullable|string|max:255',
-            'findings' => 'nullable|string|max:255',
-            'outcome' => 'nullable|string|max:255',
-            'post_discharge_instruction_1' => 'nullable|string|max:255',
-            'post_discharge_instruction_2' => 'nullable|string|max:255',
-            'post_discharge_instruction_3' => 'nullable|string|max:255',
+        // Insert the feedback data into the database
+        Feedback::create([
+            'referral_id' => $request->referral_id,
+            'responding_ward_id' => $request->user()->ward_id, // Assuming the user has a ward_id
+            'date' => $request->date,
+            'final_diagnosis' => $request->final_diagnosis,
+            'other_diagnoses' => $request->other_diagnoses,
+            'management' => json_encode($request->management), // Convert array to JSON
+            'type_of_surgery' => $request->type_of_surgery,
+            'findings' => $request->findings,
+            'outcome' => $request->outcome,
+            'post_discharge_instructions' => json_encode($request->post_discharge_instructions), // Convert array to JSON
         ]);
 
-        // Store the validated data in the database or perform other actions
-        Feedback::create($validated);
-        // For now, we will just return the data for demonstration purposes
+        $referral = Referral::findOrFail($request->referral_id);
+        $referral->status = 'Discharged';
+
+        // Redirect back or to another page with a success message
         return redirect()->back()->with('success', 'Feedback submitted successfully!');
     }
+
 
     /**
      * Display the specified resource.
      */
-    public function show(Feedback $feedback)
+    public function show($id)
     {
-        //
+        $feedback = Feedback::where('referral_id', $id)->firstOrFail();
+        return Inertia::render("Feedback", ['feedback' => $feedback, 'referral_id'=>$id]);
     }
 
     /**

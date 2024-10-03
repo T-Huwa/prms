@@ -38,7 +38,7 @@ const Referral = ({ referral, auth, hospital, hospitals }) => {
     return (
         <AuthLayout>
             {/* <Head title=`Referral{{referral.id}}` /> */}
-            <Head title={"Referral-" + referral.ReferralID} />
+            <Head title={"Referral-" + referral.id} />
             <Box>
                 <BackButton previous="incoming" />
                 <Divider className="text-2xl mb-5">Incoming Referral</Divider>

@@ -15,20 +15,15 @@ class CreateFeedbackTable extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('referral_id')->constrained('referrals');
-            $table->string('responding_department');
+            $table->foreignId('responding_ward_id')->constrained('wards');
             $table->date('date');
             $table->string('final_diagnosis');
-            $table->longText('other_diagnoses')->nullable();
-            $table->string('management_1')->nullable();
-            $table->string('management_2')->nullable();
-            $table->string('management_3')->nullable();
+            $table->string('other_diagnoses')->nullable();
+            $table->json('management');
             $table->string('type_of_surgery')->nullable();
             $table->string('findings')->nullable();
-            $table->string('outcome')->nullable();
-            $table->string('post_discharge_instruction_1')->nullable();
-            $table->string('post_discharge_instruction_2')->nullable();
-            $table->string('post_discharge_instruction_3')->nullable();
+            $table->string('outcome');
+            $table->json('post_discharge_instructions');
             $table->timestamps();
         });
     }
@@ -43,4 +38,3 @@ class CreateFeedbackTable extends Migration
         Schema::dropIfExists('feedback');
     }
 }
-

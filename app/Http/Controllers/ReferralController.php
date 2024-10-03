@@ -43,6 +43,9 @@ class ReferralController extends Controller
         
         $referrals = Referral::where('hospital_from_id', $userHospitalId)
                 ->where('status', 'Requested')
+                ->orWhere('status', 'Sent')
+                ->orWhere('status', 'Under Treatment')
+                ->orWhere('status', 'Discharged')
                 ->where('referring_officer_id', $user->id)
                 ->with('referringOfficer:id,name') // Eager load referring officer's name
                 ->get();

@@ -6,7 +6,7 @@ import { Divider, FormControl, MenuItem, Select } from "@mui/material";
 import { router } from "@inertiajs/react";
 import { useEffect } from "react";
 
-const ReferralAction = ({ role, status, referral, userHospitalId }) => {
+const ReferralAction = ({ role, status, referral, userHospitalId, Auth }) => {
     const [processing, setProcessing] = useState(false);
     const [hospitalId, setHospitalId] = useState("");
     const [doctors, setDoctors] = useState([]);
@@ -70,7 +70,7 @@ const ReferralAction = ({ role, status, referral, userHospitalId }) => {
 
     function complete() {
         setProcessing(true);
-        router.visit(route("feedback"), { referral_id: referral.id });
+        router.visit(route("feedback"), { data: { referral_id: referral.id } });
     }
 
     const updateStatus = async (newStatus) => {
@@ -175,10 +175,27 @@ const ReferralAction = ({ role, status, referral, userHospitalId }) => {
                     </>
                 )}
 
-            {role === "Doctor" && status === "Under Treatment" && (
+            {role === "Doctor" &&
+                status === "Under Treatment" &&
+                referral.receiving_officer_id === Auth().user.id && (
+                    <>
+                        <PrimaryButton disabled={processing} onClick={complete}>
+                            Complete
+                        </PrimaryButton>
+                    </>
+                )}
+
+            {role === "Doctor" && status === "Discharged" && (
                 <>
-                    <PrimaryButton disabled={processing} onClick={complete}>
-                        Complete
+                    <PrimaryButton
+                        disabled={processing}
+                        onClick={() => {
+                            router.visit(
+                                route("feedback.show", { id: referral.id })
+                            );
+                        }}
+                    >
+                        View Feedback
                     </PrimaryButton>
                 </>
             )}

@@ -15,6 +15,7 @@ import {
 import AuthLayout from "@/Layouts/AuthLayout.jsx";
 
 export default function Outgoing({ referrals }) {
+    console.log(referrals);
     return (
         <>
             <Head title="Outgoing Referrals" />

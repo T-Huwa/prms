@@ -9,22 +9,46 @@ class Feedback extends Model
 {
     use HasFactory;
 
+    protected $table = 'feedback';
+
     protected $fillable = [
-        'central_hospital',
-        'responding_department',
-        'reporting_officer',
+        'referral_id',
+        'responding_ward_id',
         'date',
-        'name_of_patient',
         'final_diagnosis',
         'other_diagnoses',
-        'management_1',
-        'management_2',
-        'management_3',
+        'management',
         'type_of_surgery',
         'findings',
         'outcome',
-        'post_discharge_instruction_1',
-        'post_discharge_instruction_2',
-        'post_discharge_instruction_3',
+        'post_discharge_instructions',
     ];
+
+    protected $casts = [
+        'management' => 'array',
+        'post_discharge_instructions' => 'array',
+    ];
+
+    /**
+     * Relationships
+     */
+
+    // A feedback belongs to a referral
+    public function referral()
+    {
+        return $this->belongsTo(Referral::class);
+    }
+
+    // A feedback belongs to a ward
+    public function ward()
+    {
+        return $this->belongsTo(Ward::class, 'responding_ward_id');
+    }
+
+    // A feedback retrieves the reporting officer from the referral
+    public function referringOfficer()
+    {
+        // Assuming that the `Referral` model has a `reporting_officer_id` field
+        return $this->referral->referringOfficer();
+    }
 }
