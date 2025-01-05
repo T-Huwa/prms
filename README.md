@@ -1,8 +1,8 @@
-# Hospital Referral Tracking System
+# Patient Referral Management System
 
 ## Overview
 
-The Hospital Referral Tracking System is a modern web application designed to manage and track patient referrals between hospitals. Built with Laravel, Inertia.js, and React.js, this application provides a seamless user experience with real-time updates and efficient referral management. It uses an SQLite database for lightweight data storage and ease of setup.
+The PRMS is a modern web application designed to manage and track patient referrals between hospitals. Built with Laravel, Inertia.js, and React.js, this application provides a seamless user experience with real-time updates and efficient referral management. It uses an SQLite database for lightweight data storage and ease of setup.
 
 ## Features
 
